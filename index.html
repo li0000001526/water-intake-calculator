@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="description" content="在线每日饮水计算工具：输入体重、运动时长和气温，算出你的标准饮水量并记录今日喝水进度。" />
+<link rel="canonical" href="https://auqdx.li00000.xyz/">
+<meta property="og:type" content="website" />
+<meta property="og:title" content="每日饮水量计算器 · 喝多少水合适 - 在线计算" />
+<meta property="og:description" content="输入体重、运动时长和气温，算出你的每日标准饮水量，并记录喝水进度。通用参考，不构成医疗建议。" />
+<meta property="og:url" content="https://auqdx.li00000.xyz/">
+<meta property="og:site_name" content="每日饮水计算器 auqdx" />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:locale:alternate" content="zh_TW" />
+<meta property="og:locale:alternate" content="en_US" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="每日饮水量计算器 · 喝多少水合适" />
+<meta name="twitter:description" content="输入体重、运动时长和气温，算出你的每日标准饮水量并记录喝水进度。" />
+<meta name="twitter:image" content="https://auqdx.li00000.xyz/assets/mascot.png" />
+<meta property="og:image" content="https://auqdx.li00000.xyz/assets/mascot.png" />
+<meta property="og:image:alt" content="每日饮水量计算器水滴吉祥物" />
+<link rel="alternate" hreflang="zh-Hans" href="https://auqdx.li00000.xyz/">
+<link rel="alternate" hreflang="zh-Hant" href="https://auqdx.li00000.xyz/">
+<link rel="alternate" hreflang="en" href="https://auqdx.li00000.xyz/">
+<link rel="alternate" hreflang="x-default" href="https://auqdx.li00000.xyz/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"每日饮水量计算器","alternateName":["喝多少水合适计算器","每日饮水计算工具","喝水进度记录"],"url":"https://auqdx.li00000.xyz/","applicationCategory":"HealthWebApplication","operatingSystem":"Any","inLanguage":["zh-CN","zh-Hant","en"],"offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"},"publisher":{"@type":"Organization","name":"li00000 在线工具集","url":"https://li00000.xyz/"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"每天应该喝多少水？","acceptedAnswer":{"@type":"Answer","text":"通用参考：基础量 = 体重(kg) × 30ml，每 30 分钟运动额外 +350ml，气温高于 30°C 再 +500ml。尿液颜色浅黄说明水分充足，深黄偏橙需要多喝。"}},{"@type":"Question","name":"喝水越多越好吗？","acceptedAnswer":{"@type":"Answer","text":"不是。一小时内喝超过 1 升或全天 4–5 升以上且尿色极浅属于过量，重度可诱发低钠血症（水中毒），表现为头痛、恶心、乏力。"}},{"@type":"Question","name":"晨起空腹喝水能排毒吗？","acceptedAnswer":{"@type":"Answer","text":"「排毒」是营销说法。晨起喝水的实际价值是补充夜间流失的水分、促进排便；净化血液或器官的说法没有临床证据。"}},{"@type":"Question","name":"茶和咖啡算不算每天的水量？","acceptedAnswer":{"@type":"Answer","text":"所有液体都计入每日水量。茶和咖啡中的水同样有效，咖啡因的轻度利尿作用在正常饮用量下可忽略；长期只喝含糖饮料的人总水摄入往往偏低。"}}]}
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="description" content="在线每日饮水计算工具：输入体重、运动时长和气温，按体重×30ml + 运动 + 气温三段公式算出标准饮水量，并记录今日喝水进度。" />
+<title>每日饮水量计算器 · 喝多少水合适 - auqdx</title>
+<style>
+  :root{
+    --ink:#1b2440; --ink-soft:#5a6488;
+    --bg:#f6f8ff; --card:#ffffff;
+    --blue:#3a7bff; --blue-d:#1e5fd6;
+    --aqua:#16c2d6; --coral:#ff6f5e; --sun:#ffcf4d;
+    --mint:#3fd6a0; --line:#e7ecfb;
+    --shadow:0 12px 30px rgba(38,70,160,.12);
+    --r:20px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei",-apple-system,Segoe UI,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    background-image:url("assets/bg.png");
+    background-size:cover;background-position:center top;background-repeat:no-repeat;
+    background-attachment:fixed;
+    min-height:100%;
+    overflow-x:hidden;
+  }
+  /* 语言切换条 */
+  .langbar{position:sticky;top:0;z-index:40;background:rgba(246,248,255,.86);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .langbar .inner{max-width:560px;margin:0 auto;padding:10px 18px;display:flex;justify-content:flex-end}
+  .langbar .switch{display:flex;gap:4px;background:#eef2ff;border-radius:99px;padding:4px}
+  .langbar .switch button{font-size:12px;font-weight:700;border:none;background:transparent;
+    color:var(--blue-d);padding:5px 12px;border-radius:99px;cursor:pointer;transition:.15s}
+  .langbar .switch button.on{background:var(--blue);color:#fff}
+
+  .wrap{max-width:560px;margin:0 auto;padding:24px 18px 64px}
+  header.top{display:flex;align-items:center;gap:12px;padding:6px 4px 18px}
+  .brand-ico{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--aqua));
+    display:grid;place-items:center;box-shadow:var(--shadow)}
+  .brand-ico svg{width:26px;height:26px}
+  .brand h1{font-size:20px;margin:0;letter-spacing:.5px}
+  .brand p{margin:2px 0 0;font-size:12px;color:var(--ink-soft)}
+
+  .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+    padding:20px;border:1px solid var(--line);margin-bottom:18px}
+  .card h2{font-size:15px;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+  .card h2 .dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+
+  /* 结果展示环 */
+  .hero{position:relative;text-align:center;padding:22px 18px 24px}
+  .hero .mascot{position:absolute;top:14px;left:50%;transform:translateX(-50%);
+    width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 6px 8px rgba(58,123,255,.25))}
+  .ring-box{position:relative;width:196px;height:196px;margin:70px auto 8px}
+  .ring{transform:rotate(-90deg)}
+  .ring .track{fill:none;stroke:#eef2ff;stroke-width:16}
+  .ring .prog{fill:none;stroke:url(#grad);stroke-width:16;stroke-linecap:round;
+    transition:stroke-dashoffset .6s cubic-bezier(.4,1.4,.5,1)}
+  .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center}
+  .ring-center .pct{font-size:40px;font-weight:800;line-height:1}
+  .ring-center .pct small{font-size:16px;font-weight:700}
+  .ring-center .sub{font-size:12px;color:var(--ink-soft);margin-top:4px}
+  .result-line{font-size:14px;color:var(--ink-soft);margin-top:6px}
+  .result-line b{color:var(--blue);font-size:16px}
+  .goal-badge{display:none;margin:12px auto 0;width:120px;height:120px;object-fit:contain}
+  .hero.full .goal-badge{display:block;animation:pop .5s ease}
+  @keyframes pop{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+
+  /* 输入 */
+  .field{margin-bottom:16px}
+  .field label{display:flex;justify-content:space-between;font-size:13px;font-weight:600;
+    color:var(--ink-soft);margin-bottom:8px}
+  .field label .val{color:var(--blue);font-weight:800;font-size:14px}
+  input[type=range]{width:100%;height:6px;-webkit-appearance:none;background:#eef2ff;border-radius:99px;outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;
+    background:linear-gradient(135deg,var(--blue),var(--aqua));border:3px solid #fff;
+    box-shadow:0 4px 8px rgba(58,123,255,.4);cursor:pointer}
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .chip{font-size:12px;padding:6px 12px;border-radius:99px;background:#eef2ff;color:var(--blue-d);
+    border:1px solid transparent;cursor:pointer;font-weight:600;transition:.15s}
+  .chip:hover{background:#e2eaff}
+  .chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+  /* 记录按钮 */
+  .add-row{display:flex;gap:10px}
+  .add-row button{flex:1}
+  .btn{border:none;border-radius:14px;padding:13px 14px;font-size:14px;font-weight:700;cursor:pointer;
+    transition:.15s;color:#fff;position:relative;overflow:hidden}
+  .btn:active{transform:scale(.97)}
+  .b-cup{background:linear-gradient(135deg,var(--blue),var(--aqua))}
+  .b-big{background:linear-gradient(135deg,var(--aqua),var(--mint))}
+  .b-bottle{background:linear-gradient(135deg,var(--sun),#ff9d5c);color:#5a3a00}
+  .log-title{display:flex;justify-content:space-between;align-items:center;margin:14px 0 8px}
+  .log-title span{font-size:13px;color:var(--ink-soft);font-weight:600}
+  .clear{font-size:12px;color:var(--coral);background:none;border:none;cursor:pointer;font-weight:700}
+  .log{display:flex;flex-direction:column;gap:6px;max-height:180px;overflow:auto}
+  .log .row{display:flex;justify-content:space-between;font-size:13px;padding:9px 12px;background:#f6f8ff;
+    border-radius:10px}
+  .log .row .t{color:var(--ink-soft)}
+  .log .row .a{font-weight:800;color:var(--blue-d)}
+  .empty{text-align:center;color:#b7c0dd;font-size:13px;padding:18px}
+
+  .tips{font-size:12px;color:var(--ink-soft);line-height:1.8}
+  .tips b{color:var(--blue)}
+  .toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(40px);
+    background:var(--ink);color:#fff;padding:11px 20px;border-radius:99px;font-size:13px;font-weight:600;
+    opacity:0;pointer-events:none;transition:.3s;box-shadow:0 10px 24px rgba(0,0,0,.3);z-index:50}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  footer{text-align:center;font-size:11px;color:#aeb8d8;margin-top:20px;line-height:1.7}
+</style>
+
+<style id="wict-tabs">
+/* WICT_UI v1 */
+body{background-image:none}
+.wict-nav{display:flex;flex-wrap:wrap;gap:4px;background:#eef2ff;border-radius:99px;padding:4px}
+.wict-nav button{font-size:12px;font-weight:700;border:none;background:transparent;
+  color:var(--blue-d);padding:5px 12px;border-radius:99px;cursor:pointer;transition:.15s}
+.wict-nav button.on{background:var(--blue);color:#fff}
+.wict-tabs{display:none;gap:4px;background:#f3f6ff;border-radius:14px;padding:6px;margin:18px 0}
+.wict-tabs.on{display:flex}
+.wict-tabs button{flex:1;font-size:13px;font-weight:700;border:none;background:transparent;
+  color:var(--ink-soft);padding:9px 4px;border-radius:10px;cursor:pointer;transition:.15s}
+.wict-tabs button.on{background:#fff;color:var(--blue-d);box-shadow:0 2px 8px rgba(38,70,160,.15)}
+.wict-sec[data-pane="calc"]:not(.on){display:none}
+.wict-sec[data-pane="track"]:not(.on){display:none}
+.wict-sec[data-pane="faq"]:not(.on){display:none}
+.wict-sec.faq{font-size:14px;color:var(--ink-soft)}
+.wict-sec.faq h2{font-size:15px;color:var(--ink)}
+.wict-sec.faq h3{font-size:13px;color:var(--ink);margin:14px 0 4px}
+.wict-sec.faq p{line-height:1.7}
+.wict-sec.faq a{color:var(--blue-d);font-weight:600}
+.wict-sec.faq .friend{margin-top:22px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line);padding-top:14px}
+.wict-sec.faq .fine{font-size:12px;color:#aeb8d8;margin-top:8px}
+.wict-sec.faq li{margin:4px 0}
+</style>
+
+</head>
+<body>
+
+<!-- 语言切换条 -->
+<div class="langbar">
+  <div class="inner">
+    <div class="switch" id="langSwitch">
+      <button data-lang="zh">简体</button>
+      <button data-lang="zh-Hant">繁體</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- WICT_UI v1 : tabbed UI -->
+<div id="wictNav" class="wict-nav" role="tablist"></div>
+<div class="wrap">
+  <header class="top">
+    <div class="brand-ico">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5c3.5 4 6 7.4 6 10.6A6 6 0 0 1 6 13.1c0-3.2 2.5-6.6 6-10.6Z" fill="#fff"/></svg>
+    </div>
+    <div class="brand">
+      <h1 data-k="title">每日饮水计算</h1>
+      <p data-k="subtitle">喝够标准水量 · 记录你的进步</p>
+    </div>
+  </header>
+
+  <!-- 结果环 -->
+  <section class="card hero" id="hero">
+    <img class="mascot" src="assets/mascot.png" data-k-attr="alt.mascot" alt="水滴吉祥物" />
+    <div class="ring-box">
+      <svg class="ring" viewBox="0 0 200 200" width="196" height="196">
+        <defs>
+          <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#3a7bff"/>
+            <stop offset="100%" stop-color="#16c2d6"/>
+          </linearGradient>
+        </defs>
+        <circle class="track" cx="100" cy="100" r="82"/>
+        <circle class="prog" id="ringProg" cx="100" cy="100" r="82"/>
+      </svg>
+      <div class="ring-center">
+        <div class="pct"><span id="pct">0</span><small>%</small></div>
+        <div class="sub" data-k="doneLabel">今日完成度</div>
+      </div>
+    </div>
+    <img class="goal-badge" src="assets/goal.png" data-k-attr="alt.goal" alt="达成庆祝" />
+    <div class="result-line"><span data-k="targetLabel">今日标准饮水量</span> <b id="target">--</b> <span data-k="mlUnit">毫升</span></div>
+    <div class="result-line" style="margin-top:4px"><span data-k="takenLabel">已喝</span> <b id="taken" style="font-size:14px">0</b> / <span data-k="goalLabel">目标</span> <span id="target2">--</span> ml</div>
+  </section>
+
+  <!-- 参数 -->
+  <section class="card">
+    <h2><span class="dot"></span><span data-k="calcTitle">计算我的标准饮水量</span></h2>
+    <div class="field">
+      <label><span data-k="weightLabel">体重</span> <span class="val"><span id="wVal">65</span> kg</span></label>
+      <input type="range" id="weight" min="30" max="120" step="1" value="65" />
+    </div>
+    <div class="field">
+      <label><span data-k="exerciseLabel">运动时长</span> <span class="val"><span id="eVal">30</span> <span data-k="minUnit">分钟</span></span></label>
+      <input type="range" id="exercise" min="0" max="120" step="5" value="30" />
+      <div class="quick" data-target="exercise">
+        <button class="chip" data-v="0" data-k="ch.noEx">不运动</button>
+        <button class="chip" data-v="30" data-k="ch.min30">30 分钟</button>
+        <button class="chip" data-v="60" data-k="ch.hour1">1 小时</button>
+        <button class="chip" data-v="90" data-k="ch.min90">90 分钟</button>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-k="tempLabel">天气温度</span> <span class="val"><span id="tVal">25</span> °C</span></label>
+      <input type="range" id="temp" min="-10" max="45" step="1" value="25" />
+      <div class="quick" data-target="temp">
+        <button class="chip" data-v="10" data-k="ch.cold">寒冷</button>
+        <button class="chip" data-v="25" data-k="ch.comfy">舒适</button>
+        <button class="chip" data-v="33" data-k="ch.hot">炎热</button>
+        <button class="chip" data-v="38" data-k="ch.scorch">酷暑</button>
+      </div>
+    </div>
+    <p class="tips" id="tips" data-k="tips">
+      计算逻辑：基础量 = 体重 × 30ml；运动每 30 分钟额外 +350ml；
+      气温 <b>&gt;30°C</b> 额外 +500ml，<b>20–30°C</b> +250ml，<b>15–20°C</b> +100ml，其余不加。
+      结果为参考建议，运动量大、发热或特殊人群请酌情多喝。
+    </p>
+  </section>
+
+  <!-- 记录 -->
+  <section class="card">
+    <h2><span class="dot" style="background:var(--aqua)"></span><span data-k="logTitle">记录喝水进度</span></h2>
+    <div class="add-row">
+      <button class="btn b-cup" data-ml="250" data-k="b.cup">+ 一杯 250ml</button>
+      <button class="btn b-big" data-ml="500" data-k="b.bottle">+ 一瓶 500ml</button>
+      <button class="btn b-bottle" data-ml="750" data-k="b.big">+ 大瓶 750ml</button>
+    </div>
+    <div class="log-title">
+      <span data-k="todayLog">今日记录</span>
+      <button class="clear" id="clear" data-k="clear">清空</button>
+    </div>
+    <div class="log" id="log"></div>
+  </section>
+
+  <footer>
+    <span data-k="f1">数据仅保存在本机浏览器（localStorage），不会上传。</span><br/>
+    <span data-k="f2">饮水建议为通用参考，不构成医疗意见。</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+<section class="wict-seo" aria-label="References">
+<style>
+.wict-seo{max-width:560px;margin:0 auto 24px;padding:0 18px;font-size:13px;color:var(--ink-soft);line-height:1.7}
+.wict-seo h2{font-size:15px;color:var(--ink);margin:14px 0 8px}
+.wict-seo .refs{padding-left:18px;margin:8px 0}
+.wict-seo .refs a{color:var(--blue-d);font-weight:600}
+.wict-seo .friend{margin-top:14px;font-size:12px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:12px}
+.wict-seo .friend a{color:var(--blue-d)}
+.wict-seo .fine{font-size:11px;color:#aeb8d8;margin-top:6px}
+</style>
+<h2>References · 参考与延伸阅读</h2>
+<ul class="refs">
+<li><a href="https://ods.od.nih.gov/factsheets/Water-Consumer/" target="_blank" rel="noopener">NIH Office of Dietary Supplements · Water (consumer fact sheet)</a></li>
+<li><a href="https://www.health.harvard.edu/publications/how-much-water-should-you-drink" target="_blank" rel="noopener">Harvard T.H. Chan School of Public Health · How much water should you drink?</a></li>
+<li><a href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20442827" target="_blank" rel="noopener">Mayo Clinic · Hydration: What you need to know about water</a></li>
+<li><a href="https://www.exrx.net/WeightLoss/CalorieExpenditure" target="_blank" rel="noopener">ExRx.net · Calorie Expenditure (exercise energy cost)</a></li>
+</ul>
+<p class="friend">More tools · 更多在线工具：<a href="https://li00000.xyz/" target="_blank" rel="noopener">Online PS 修图</a> · <a href="https://tools.li00000.xyz/" target="_blank" rel="noopener">Mortgage 房贷计算器</a> · <a href="https://tjtkw.li00000.xyz/" target="_blank" rel="noopener">Body-fat 健身体脂计算器</a></p>
+<p class="fine">通用参考，不构成医疗建议 / General reference only, not medical advice.</p>
+</section>
+
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s);
+
+  /* ---------- i18n ---------- */
+  const I18N = {
+    "zh": {
+      title:"每日饮水计算", subtitle:"喝够标准水量 · 记录你的进步",
+      doneLabel:"今日完成度", targetLabel:"今日标准饮水量", takenLabel:"已喝", goalLabel:"目标", mlUnit:"毫升",
+      alt:{mascot:"水滴吉祥物", goal:"达成庆祝"},
+      calcTitle:"计算我的标准饮水量",
+      weightLabel:"体重", exerciseLabel:"运动时长", tempLabel:"天气温度", minUnit:"分钟",
+      "ch.noEx":"不运动","ch.min30":"30 分钟","ch.hour1":"1 小时","ch.min90":"90 分钟",
+      "ch.cold":"寒冷","ch.comfy":"舒适","ch.hot":"炎热","ch.scorch":"酷暑",
+      tips:"计算逻辑：基础量 = 体重 × 30ml；运动每 30 分钟额外 +350ml；气温 <b>&gt;30°C</b> 额外 +500ml，<b>20–30°C</b> +250ml，<b>15–20°C</b> +100ml，其余不加。<br/>结果为参考建议，运动量大、发热或特殊人群请酌情多喝。",
+      logTitle:"记录喝水进度",
+      "b.cup":"+ 一杯 250ml","b.bottle":"+ 一瓶 500ml","b.big":"+ 大瓶 750ml",
+      todayLog:"今日记录", clear:"清空",
+      f1:"数据仅保存在本机浏览器（localStorage），不会上传。",
+      f2:"饮水建议为通用参考，不构成医疗意见。",
+      emptyLog:"还没记录喝水，点上面的按钮开始吧～",
+      logEntry:"记录", addedToast:"已记录 +", clearConfirm:"确定清空今日所有记录？",
+      timeLocale:"zh-CN", htmlLang:"zh-CN"
+    },
+    "zh-Hant": {
+      title:"每日飲水計算", subtitle:"喝夠標準水量 · 記錄你的進步",
+      doneLabel:"今日完成度", targetLabel:"今日標準飲水量", takenLabel:"已喝", goalLabel:"目標", mlUnit:"毫升",
+      alt:{mascot:"水滴吉祥物", goal:"達成慶祝"},
+      calcTitle:"計算我的標準飲水量",
+      weightLabel:"體重", exerciseLabel:"運動時長", tempLabel:"天氣溫度", minUnit:"分鐘",
+      "ch.noEx":"不運動","ch.min30":"30 分鐘","ch.hour1":"1 小時","ch.min90":"90 分鐘",
+      "ch.cold":"寒冷","ch.comfy":"舒適","ch.hot":"炎熱","ch.scorch":"酷暑",
+      tips:"計算邏輯：基礎量 = 體重 × 30ml；運動每 30 分鐘額外 +350ml；氣溫 <b>&gt;30°C</b> 額外 +500ml，<b>20–30°C</b> +250ml，<b>15–20°C</b> +100ml，其餘不加。<br/>結果為參考建議，運動量大、發熱或特殊人群請酌情多喝。",
+      logTitle:"記錄喝水進度",
+      "b.cup":"+ 一杯 250ml","b.bottle":"+ 一瓶 500ml","b.big":"+ 大瓶 750ml",
+      todayLog:"今日記錄", clear:"清空",
+      f1:"資料僅保存在本機瀏覽器（localStorage），不會上傳。",
+      f2:"飲水建議為通用參考，不構成醫療意見。",
+      emptyLog:"還沒記錄喝水，點上面的按鈕開始吧～",
+      logEntry:"記錄", addedToast:"已記錄 +", clearConfirm:"確定清空今日所有記錄？",
+      timeLocale:"zh-Hant", htmlLang:"zh-Hant"
+    },
+    "en": {
+      title:"Daily Water Intake", subtitle:"Hit your goal · track your progress",
+      doneLabel:"Today's progress", targetLabel:"Daily goal", takenLabel:"Drunk", goalLabel:"Goal", mlUnit:"ml",
+      alt:{mascot:"Water drop mascot", goal:"Goal reached celebration"},
+      calcTitle:"Calculate my daily goal",
+      weightLabel:"Weight", exerciseLabel:"Exercise", tempLabel:"Temperature", minUnit:"min",
+      "ch.noEx":"None","ch.min30":"30 min","ch.hour1":"1 hour","ch.min90":"90 min",
+      "ch.cold":"Cold","ch.comfy":"Mild","ch.hot":"Hot","ch.scorch":"Scorching",
+      tips:"How it's calculated: base = weight × 30ml; each 30 min of exercise adds +350ml; temperature <b>&gt;30°C</b> adds +500ml, <b>20–30°C</b> +250ml, <b>15–20°C</b> +100ml, otherwise none.<br/>Figures are a general guideline — drink more if you're active, feverish or in special circumstances.",
+      logTitle:"Track your drinks",
+      "b.cup":"+ Glass 250ml","b.bottle":"+ Bottle 500ml","b.big":"+ Large 750ml",
+      todayLog:"Today's log", clear:"Clear",
+      f1:"Data is stored only in your browser (localStorage) and never uploaded.",
+      f2:"This is a general guideline and not medical advice.",
+      emptyLog:"No drinks logged yet — tap a button above to start.",
+      logEntry:"logged", addedToast:"Added +", clearConfirm:"Clear all of today's records?",
+      timeLocale:"en", htmlLang:"en"
+    }
+  };
+  const LANG_KEY='water_lang';
+  let lang = localStorage.getItem(LANG_KEY) || "zh";
+  if(!I18N[lang]) lang="zh";
+  function T(){ return I18N[lang]; }
+
+  function applyI18n(){
+    const t=T();
+    document.documentElement.lang=t.htmlLang;
+    // 文本节点
+    document.querySelectorAll('[data-k]').forEach(el=>{
+      const k=el.getAttribute('data-k');
+      let v=t[k];
+      if(v===undefined) return;
+      if(k==='tips') el.innerHTML=v; else el.textContent=v;
+    });
+    // alt 属性
+    document.querySelectorAll('[data-k-attr]').forEach(el=>{
+      const m=el.getAttribute('data-k-attr').split('.');
+      el.setAttribute('alt', t[m[0]][m[1]]);
+    });
+    // 语言按钮状态
+    document.querySelectorAll('#langSwitch button').forEach(b=>{
+      b.classList.toggle('on', b.dataset.lang===lang);
+    });
+    renderLog(); // 动态内容随语言重渲染
+  }
+
+  document.querySelectorAll('#langSwitch button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      lang=b.dataset.lang;
+      localStorage.setItem(LANG_KEY,lang);
+      applyI18n();
+    });
+  });
+
+  /* ---------- 数据 ---------- */
+  const key='water_intake_v1';
+  const today=()=>new Date().toISOString().slice(0,10);
+  let state = load();
+  function load(){
+    try{const d=JSON.parse(localStorage.getItem(key));
+      if(d && d.date===today()) return d;
+    }catch(e){}
+    return {date:today(), weight:65, exercise:30, temp:25, log:[]};
+  }
+  function save(){ localStorage.setItem(key, JSON.stringify(state)); }
+
+  $('#weight').value=state.weight;
+  $('#exercise').value=state.exercise;
+  $('#temp').value=state.temp;
+
+  function calc(){
+    const w=state.weight, e=state.exercise, t=state.temp;
+    let ml = w*30;
+    ml += Math.floor(e/30)*350;
+    if(t>30) ml+=500; else if(t>=20) ml+=250; else if(t>=15) ml+=100;
+    return Math.round(ml/10)*10;
+  }
+  function taken(){ return state.log.reduce((s,x)=>s+x.ml,0); }
+
+  const R=82, C=2*Math.PI*R;
+  const ring=$('#ringProg');
+  ring.style.strokeDasharray=C;
+
+  function syncChips(input){
+    document.querySelectorAll('.quick[data-target='+input.id+'] .chip').forEach(c=>{
+      c.classList.toggle('on', +c.dataset.v===+input.value);
+    });
+  }
+
+  function render(){
+    const w=+$('#weight').value, e=+$('#exercise').value, t=+$('#temp').value;
+    state.weight=w; state.exercise=e; state.temp=t;
+    $('#wVal').textContent=w; $('#eVal').textContent=e; $('#tVal').textContent=t;
+    syncChips($('#weight')); syncChips($('#exercise')); syncChips($('#temp'));
+
+    const target=calc();
+    $('#target').textContent=target;
+    $('#target2').textContent=target;
+    const tk=taken();
+    $('#taken').textContent=tk;
+    const pct=target>0?Math.min(100,Math.round(tk/target*100)):0;
+    $('#pct').textContent=pct;
+    ring.style.strokeDashoffset=C*(1-pct/100);
+    $('#hero').classList.toggle('full', tk>=target && target>0);
+
+    renderLog();
+    save();
+  }
+
+  function renderLog(){
+    const box=$('#log'); const log=state.log; const t=T();
+    if(!log.length){ box.innerHTML='<div class="empty">'+t.emptyLog+'</div>'; return; }
+    box.innerHTML=log.slice().reverse().map((x)=>
+      `<div class="row"><span class="t">${new Date(x.at).toLocaleTimeString(t.timeLocale,{hour:'2-digit',minute:'2-digit'})} · ${t.logEntry}</span><span class="a">+${x.ml} ml</span></div>`
+    ).join('');
+  }
+
+  function toast(msg){
+    const el=$('#toast'); el.textContent=msg; el.classList.add('show');
+    clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove('show'),1600);
+  }
+
+  // 事件
+  ['#weight','#exercise','#temp'].forEach(sel=>{
+    $(sel).addEventListener('input',render);
+  });
+  document.querySelectorAll('.quick').forEach(q=>{
+    q.addEventListener('click',ev=>{
+      const c=ev.target.closest('.chip'); if(!c) return;
+      $('#'+q.dataset.target).value=c.dataset.v;
+      render();
+    });
+  });
+  document.querySelectorAll('.add-row .btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const ml=+b.dataset.ml;
+      state.log.push({ml, at:Date.now()});
+      toast(T().addedToast+ml+' ml');
+      render();
+    });
+  });
+  $('#clear').addEventListener('click',()=>{
+    if(!state.log.length) return;
+    if(confirm(T().clearConfirm)){ state.log=[]; render(); }
+  });
+
+  applyI18n();
+  render();
+})();
+</script>
+<script>
+
+// ===== WICT_UI v1 : language switcher UI strings (added by deploy, all languages) =====
+window.I18N_UI = {
+  "zh": {
+    doc_title:"每日饮水量计算器 · 喝多少水合适 - 在线计算",
+    nav_calc:"计算", nav_track:"记录", nav_faq:"常见问题", subtitle_tail:"喝够标准水量 · 记录你的进步",
+    faq_title:"每日喝水量常见问题",
+    faq_q1:"每天到底应该喝多少水？",
+    faq_a1:"没有统一标准，通用参考是体重 × 30ml 作为基础量（如 65kg ≈ 1950ml），再按运动量与气温向上调整：每 30 分钟运动约 +350ml，气温高于 30°C 再 +500ml。尿液颜色浅黄说明水分充足，深黄偏橙就要多喝。",
+    faq_q2:"喝水越多越好吗？",
+    faq_a2:"不是。健康成人一小时内喝超过 1 升水、或一天 4–5 升以上且尿色极浅，属于过量，重度可诱发低钠血症（水中毒），表现为头痛、恶心、乏力。运动日按本工具的建议量补水即可。",
+    faq_q3:"晨起空腹喝水真的排毒吗？",
+    faq_a3:"「排毒」是营销说法。晨起喝水的实际价值是补充夜间流失的水分、维持血容量、促进排便；所谓净化血液/器官的说法没有临床证据。把它当成补水习惯就好。",
+    faq_q4:"白开水、茶、咖啡算不算「水」？",
+    faq_a4:"都算液体摄入，茶和咖啡里的水同样计入每日总量（咖啡因的轻度利尿作用在正常饮用量下几乎可忽略）。但长期只喝含糖饮料的人通常总水摄入偏低，建议以白水或淡茶为主。",
+    faq_refs:"延伸阅读",
+    faq_li1:"Harvard T.H. Chan School of Public Health · <a href=\"https://www.health.harvard.edu/publications/how-much-water-should-you-drink\" target=\"_blank\" rel=\"noopener\">How much water should you drink?</a>",
+    faq_li2:"NIH Office of Dietary Supplements · <a href=\"https://ods.od.nih.gov/factsheets/Water-Consumer/\" target=\"_blank\" rel=\"noopener\">Water (Consumer Fact Sheet)</a>",
+    faq_li3:"Mayo Clinic · <a href=\"https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20442827\" target=\"_blank\" rel=\"noopener\">Hydration: What you need to know about water</a>",
+    faq_li4:"ExRx.net · <a href=\"https://www.exrx.net/WeightLoss/CalorieExpenditure\" target=\"_blank\" rel=\"noopener\">Calorie Expenditure（运动热量消耗表）</a>",
+    faq_friend:"更多在线工具：<a href=\"https://li00000.xyz/\" target=\"_blank\" rel=\"noopener\">在线PS 修图</a> · <a href=\"https://tools.li00000.xyz/\" target=\"_blank\" rel=\"noopener\">房贷计算器</a> · <a href=\"https://tjtkw.li00000.xyz/\" target=\"_blank\" rel=\"noopener\">健身体脂计算器</a>",
+    faq_fine:"本页内容为通用健康参考，不构成医疗建议；肾病、心衰、孕产妇等特殊人群请先咨询医生。"
+  },
+  "zh-Hant": {
+    doc_title:"每日飲水量計算器 · 喝多少水合適 - 線上計算",
+    nav_calc:"計算", nav_track:"記錄", nav_faq:"常見問題", subtitle_tail:"喝夠標準水量 · 記錄你的進步",
+    faq_title:"每日喝水量常見問題",
+    faq_q1:"每天到底應該喝多少水？",
+    faq_a1:"沒有統一標準，通用參考是體重 × 30ml 作為基礎量（如 65kg ≈ 1950ml），再按運動量與氣溫向上調整：每 30 分鐘運動約 +350ml，氣溫高於 30°C 再 +500ml。尿液顏色淺黃說明水分充足，深黃偏橙就要多喝。",
+    faq_q2:"喝水越多越好嗎？",
+    faq_a2:"不是。健康成人一小時內喝超過 1 升水、或一天 4–5 升以上且尿色極淺，屬於過量，重度可誘發低鈉血證（水中毒），表現為頭痛、噁心、乏力。運動日按本工具的建议量補水即可。",
+    faq_q3:"晨起空腹喝水真的排毒嗎？",
+    faq_a3:"「排毒」是行銷說法。晨起喝水的實際價值是補充夜間流失的水分、維持血容量、促進排便；所謂淨化血液／器官的說法沒有臨床證據。把它當成補水習慣就好。",
+    faq_q4:"白開水、茶、咖啡算不算「水」？",
+    faq_a4:"都算液體攝取，茶和咖啡裡的水同樣計入每日總量（咖啡因的輕度利尿作用在正常飲用量下幾乎可忽略）。但長期只喝含糖飲料的人通常總水攝取偏低，建議以白水或淡茶為主。",
+    faq_refs:"延伸閱讀",
+    faq_li1:"Harvard T.H. Chan School of Public Health · <a href=\"https://www.health.harvard.edu/publications/how-much-water-should-you-drink\" target=\"_blank\" rel=\"noopener\">How much water should you drink?</a>",
+    faq_li2:"NIH Office of Dietary Supplements · <a href=\"https://ods.od.nih.gov/factsheets/Water-Consumer/\" target=\"_blank\" rel=\"noopener\">Water (Consumer Fact Sheet)</a>",
+    faq_li3:"Mayo Clinic · <a href=\"https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20442827\" target=\"_blank\" rel=\"noopener\">Hydration: What you need to know about water</a>",
+    faq_li4:"ExRx.net · <a href=\"https://www.exrx.net/WeightLoss/CalorieExpenditure\" target=\"_blank\" rel=\"noopener\">Calorie Expenditure（運動熱量消耗表）</a>",
+    faq_friend:"更多線上工具：<a href=\"https://li00000.xyz/\" target=\"_blank\" rel=\"noopener\">線上 PS 修圖</a> · <a href=\"https://tools.li00000.xyz/\" target=\"_blank\" rel=\"noopener\">房貸計算器</a> · <a href=\"https://tjtkw.li00000.xyz/\" target=\"_blank\" rel=\"noopener\">健身体脂計算器</a>",
+    faq_fine:"本頁內容為通用健康參考，不構成醫療建議；腎病、心衰、孕產婦等特殊人群請先諮詢醫生。"
+  },
+  "en": {
+    doc_title:"Daily Water Intake Calculator - How Much Water Should You Drink",
+    nav_calc:"Calculate", nav_track:"Log", nav_faq:"FAQ", subtitle_tail:"Hit your goal · track your progress",
+    faq_title:"Daily water intake — FAQ",
+    faq_q1:"How much water should I drink each day?",
+    faq_a1:"There's no single standard. A common rule of thumb is body weight × 30 ml as a base (e.g. 65 kg ≈ 1,950 ml), then add on for activity and heat: roughly +350 ml per 30 minutes of exercise and another +500 ml above 30°C. Pale-yellow urine means you're well hydrated; dark amber means drink more.",
+    faq_q2:"Can you drink too much water?",
+    faq_a2:"Yes. Pushing more than about 1 litre/hour, or 4–5+ litres a day with very pale urine, can lead to hyponatremia (water intoxication): headache, nausea, fatigue. On exercise days the amount this tool suggests is enough.",
+    faq_q3:"Does drinking water on an empty stomach in the morning \"detox\" you?",
+    faq_a3:"\"Detox\" is marketing. The real value of a morning glass is replacing fluid lost overnight, maintaining blood volume and aiding bowel movement. The claims about purifying blood or organs have no clinical evidence.",
+    faq_q4:"Do tea and coffee count towards your daily water?",
+    faq_a4:"All liquids count — the water in tea and coffee adds to your daily total (caffeine's mild diuretic effect is negligible at normal amounts). People who rely mainly on sugary drinks tend to get less total water; aim for plain water or light tea.",
+    faq_refs:"References & further reading",
+    faq_li1:"Harvard T.H. Chan School of Public Health · <a href=\"https://www.health.harvard.edu/publications/how-much-water-should-you-drink\" target=\"_blank\" rel=\"noopener\">How much water should you drink?</a>",
+    faq_li2:"NIH Office of Dietary Supplements · <a href=\"https://ods.od.nih.gov/factsheets/Water-Consumer/\" target=\"_blank\" rel=\"noopener\">Water (Consumer Fact Sheet)</a>",
+    faq_li3:"Mayo Clinic · <a href=\"https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20442827\" target=\"_blank\" rel=\"noopener\">Hydration: What you need to know about water</a>",
+    faq_li4:"ExRx.net · <a href=\"https://www.exrx.net/WeightLoss/CalorieExpenditure\" target=\"_blank\" rel=\"noopener\">Calorie Expenditure (exercise tables)</a>",
+    faq_friend:"More online tools: <a href=\"https://li00000.xyz/\" target=\"_blank\" rel=\"noopener\">Online PS photo editing</a> · <a href=\"https://tools.li00000.xyz/\" target=\"_blank\" rel=\"noopener\">Mortgage calculator</a> · <a href=\"https://tjtkw.li00000.xyz/\" target=\"_blank\" rel=\"noopener\">Body-fat calculator</a>",
+    faq_fine:"General health guidance, not medical advice. If you have kidney, heart or pregnancy-related conditions, consult your doctor first."
+  }
+};
+// ===== end WICT_UI v1 =====
+
+</script>
+
+<script>
+/* WICT_UI v1 */
+(function(){
+  if(window.__WICT_UI) return;
+  window.__WICT_UI = true;
+  function curLang(){
+    try{ return localStorage.getItem("water_lang") || "zh"; }catch(e){ return "zh"; }
+  }
+  function curDict(){ return window.I18N_UI[curLang()] || window.I18N_UI["zh"]; }
+  var t = curDict();
+  document.title = t.doc_title;
+
+  /* ---- build the tab buttons (nav + section switcher) ---- */
+  var nav = document.getElementById("wictNav");
+  var tabBar = document.createElement("div");
+  tabBar.className = "wict-tabs on";
+  var barWrap = document.createElement("div");
+  barWrap.style.cssText = "max-width:560px;margin:0 auto;padding:10px 18px 0";
+  barWrap.appendChild(tabBar);
+  document.querySelector(".wrap").prepend(barWrap);
+
+  var SECS = ["calc","track","faq"];
+  function names(){ var d = curDict(); return {calc:d.nav_calc, track:d.nav_track, faq:d.nav_faq}; }
+  var nm = names();
+  SECS.forEach(function(id){
+    [nav, tabBar].forEach(function(host){
+      var b = document.createElement("button");
+      b.textContent = nm[id];
+      b.dataset.pane = id;
+      host.appendChild(b);
+    });
+  });
+
+  var current = "calc";
+  function go(id){
+    current = id;
+    SECS.forEach(function(pid){
+      document.querySelector('.wict-sec[data-pane="'+pid+'"]').classList.toggle("on", pid===id);
+      nav.querySelectorAll("button").forEach(function(b){ b.classList.toggle("on", b.dataset.pane===id); });
+      tabBar.querySelectorAll("button").forEach(function(b){ b.classList.toggle("on", b.dataset.pane===id); });
+    });
+    if(id === "faq") renderFaq();
+  }
+  [nav, tabBar].forEach(function(host){
+    host.addEventListener("click", function(ev){
+      var b = ev.target.closest("button");
+      if(b) go(b.dataset.pane);
+    });
+  });
+
+  /* ---- wrap the three cards into panes, insert the FAQ pane ---- */
+  var cards = document.querySelectorAll(".wrap .card");
+  var calcCard = cards[0], trackCard = cards[1];
+  cards.forEach(function(c){ c.classList.add("wict-sec"); });
+  calcCard.dataset.pane = "calc";
+  trackCard.dataset.pane = "track";
+  calcCard.classList.add("on"); trackCard.classList.remove("on");
+
+  var faq = document.createElement("section");
+  faq.className = "card wict-sec faq";
+  faq.dataset.pane = "faq";
+  faq.id = "wictFaq";
+  trackCard.insertAdjacentElement("afterend", faq);
+
+  /* ---- FAQ content (all 3 languages via I18N_UI) ---- */
+  function renderFaq(){
+    var i18n = curDict();
+    faq.innerHTML =
+      "<h2><span class=\"dot\" style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--aqua);margin-right:8px\"></span>"+i18n.faq_title+"</h2>"
+      + "<h3>"+i18n.faq_q1+"</h3><p>"+i18n.faq_a1+"</p>"
+      + "<h3>"+i18n.faq_q2+"</h3><p>"+i18n.faq_a2+"</p>"
+      + "<h3>"+i18n.faq_q3+"</h3><p>"+i18n.faq_a3+"</p>"
+      + "<h3>"+i18n.faq_q4+"</h3><p>"+i18n.faq_a4+"</p>"
+      + "<h3>"+i18n.faq_refs+"</h3><ul>"
+      + "<li>"+i18n.faq_li1+"</li><li>"+i18n.faq_li2+"</li><li>"+i18n.faq_li3+"</li><li>"+i18n.faq_li4+"</li>"
+      + "</ul>"
+      + "<p class=\"friend\">"+i18n.faq_friend+"</p>"
+      + "<p class=\"fine\">"+i18n.faq_fine+"</p>";
+  }
+
+  /* ---- listen to the language switch (main script's buttons; main's
+       handler runs first because it was attached earlier) ---- */
+  document.querySelectorAll("#langSwitch button").forEach(function(b){
+    b.addEventListener("click", function(){
+      setTimeout(function(){
+        var nl = b.dataset.lang;
+        var nt = window.I18N_UI[nl];
+        if(!nt) return;
+        document.title = nt.doc_title;
+        var nn = {calc:nt.nav_calc, track:nt.nav_track, faq:nt.nav_faq};
+        [nav, tabBar].forEach(function(host){
+          host.querySelectorAll("button").forEach(function(btn){
+            btn.textContent = nn[btn.dataset.pane];
+          });
+        });
+        if(current === "faq") renderFaq();
+      }, 0);
+    });
+  });
+  go("calc");
+  if(current === "faq") renderFaq();
+})();
+</script>
+
+</body>
+</html>
